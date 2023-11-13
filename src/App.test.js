@@ -28,8 +28,7 @@ const data = [
   }
 ];
 
-const addReply = (e, data, indices, reply) => {
-  e.preventDefault();
+const addReply = (data, indices, reply) => {
   data = [...data];
   let replies = data;
   indices.forEach(index => {
