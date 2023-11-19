@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { replyHandler } from "../Functions/functions";
+import { addReplyAPI } from "../Functions/functions";
 
-export function Comment({ comment, indices, commentData, setCommentData }) {
+export function Comment({ comment, indices, commentData, setCommentData, setSubmit }) {
   const [input, setInput] = useState('');
 
   return (
     <div style={{ paddingLeft: '15px' }}>
       <input value={input} onChange={e => setInput(e.target.value)} />
-      <button onClick={e => replyHandler(e, indices, input, setInput,commentData, setCommentData)}>Reply</button>
+      <button onClick={e => addReplyAPI(e, 'http://localhost:3000/setComment', indices, input, setInput, setCommentData, setSubmit)}>Reply</button>
       {comment.comment}
       {
         comment.replies.length > 0 &&
