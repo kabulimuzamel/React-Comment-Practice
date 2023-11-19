@@ -17,26 +17,23 @@
     setCommentData(data);
   }
   
-  // export const replyHandler = (e, indices, input, setInput,commentData, setCommentData) => {
-  //   e.preventDefault();
-  //   fetch('')
-  //   setInput('');
-  //   setCommentData(data);
-  // }
   
-  export const fetchCommentData = (arr, apiURL, setter) => {
-    if(!arr.length) {
+  export const fetchCommentData = (apiURL, setter) => {
       fetch(apiURL)
         .then(res => res.json())
         .then(res => {
-          setter(res);
-          console.log(res);
+          if(!res.length) {
+            setter('NO COMMENT');
+            console.log(res);
+          } else {
+            setter(res);
+            console.log(res);
+          }
         })
         .catch(err => console.log(err.message));
-    }
   }
 
-  export const addCommmentAPI = (e,apiURL, input, setInput, setCommentData, setSubmit) => {
+  export const addCommmentAPI = (e ,apiURL, input, setInput, setCommentData) => {
     e.preventDefault();
     fetch(apiURL, 
       {
@@ -51,22 +48,14 @@
         })
       }
     )
+    .then(res => res.json())
     .then(res => {
-      if(res.status === 200) {
-        console.log(input)
-        setInput('');
-        console.log(input)
-        setCommentData([]);
-        setSubmit(prev => {
-          if(prev) return false;
-           return true
-        })
-      }
+      setCommentData(res);
+      setInput('');
     })
-
   }
 
-  export const addReplyAPI = (e, apiURL, indices, input, setInput, setCommentData, setSubmit) => {
+  export const addReplyAPI = (e, apiURL, indices, input, setInput, setCommentData) => {
     e.preventDefault();
     fetch(apiURL, 
       {
@@ -81,12 +70,9 @@
         })
       }
     ).then(res => {
-      setInput('');
-      console.log(input)
-      setCommentData([]);
-      setSubmit(prev => {
-        if(prev) return false;
-         return true
-      })
+      if(res.status === 200) {
+        setInput('');
+        setCommentData([]);
+      }
     })
   }
